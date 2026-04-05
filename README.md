@@ -116,7 +116,7 @@ src/
 ## 🚀 Getting Started
 
 ```bash
-git clone https://github.com/<your-username>/portfolio.git
+git clone https://github.com/KanishkKa1/portfolio.git
 cd portfolio
 npm install
 npm run dev
