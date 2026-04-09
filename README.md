@@ -1,28 +1,32 @@
-# 🚀 Developer Portfolio — System Design Driven Frontend
-
-A production-oriented developer portfolio built using **Next.js App Router**, designed to demonstrate **scalable frontend architecture, rendering strategies, and maintainable system design**.
+# 🚀 DevSpace - System Design Driven Developer's Portfolio
 
 ---
 
 ## 📌 Problem Statement
 
-Most portfolios are UI-heavy but **architecturally weak**:
-- Tight coupling between components
-- No clear rendering strategy
-- Poor scalability for content (blogs/projects)
-- Hard to extend without refactoring
+Most fail at scale due to:
 
-This project addresses those issues by treating the portfolio as a **modular system**, not a static website.
+- Tight coupling between UI and logic
+- No modular separation (everything in pages/components)
+- Poor extensibility for features (projects, blogs, systems)
+- Lack of state architecture for complex UI/UX.
+
+This project solves that by implementing:
+
+- **Feature-based architecture**
+- **Centralized layout system**
+- **Reusable UI primitives**
+- **Isolated state management**
 
 ---
 
 ## 🧠 Design Goals
 
-- **Scalability** → Support growth (blogs, projects, features)
-- **Performance** → Prefer static rendering where possible
-- **Separation of Concerns** → UI, routing, and data isolated
-- **Extensibility** → Add features without breaking existing structure
-- **Predictability** → File-based routing + consistent layout system
+- **Modularity** → Feature isolation (`features/*`)
+- **Scalability** → Add domains (projects, systems, blog) independently
+- **Maintainability** → Clear separation of concerns
+- **Performance** → Static-first rendering
+- **System Design Thinking** → UI behaves like an application, not a page
 
 ---
 
@@ -30,77 +34,124 @@ This project addresses those issues by treating the portfolio as a **modular sys
 
 ```bash
 src/
-├── app/
-│   ├── layout.tsx          # Root layout (global UI + metadata)
-│   ├── page.tsx            # Landing page (SSG)
+├── app/                     
+│   ├── layout.tsx            
+│   ├── page.tsx              
 │   ├── blog/
-│   │   ├── page.tsx        # Blog index (SSG)
-│   │   └── [slug]/
-│   │       └── page.tsx    # Blog detail (dynamic segment)
-│   └── contact/
-│       └── page.tsx        # Contact page
+│   │   ├── page.tsx
+│   │   └── [slug]/page.tsx
+│   ├── projects/
+│   │   ├── page.tsx
+│   │   └── [slug]/page.tsx
+│   ├── leetcode/page.tsx
+│   ├── contact/page.tsx
+│   └── systems/              
+│       ├── langgraph/page.tsx
+│       ├── mcp/page.tsx
+│       └── scheduler/page.tsx
+│
+├── components/               
+│   ├── layout/               
+│   │   ├── AppShell.tsx      
+│   │   ├── Sidebar.tsx
+│   │   ├── Topbar.tsx
+│   │   └── Tabs.tsx          
+│   │
+│   ├── shared/               
+│   └── ui/                   
+│
+├── features/                 
+│   ├── projects/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   └── types.ts
+│   │
+│   └── tabs/
+│       ├── context/            
+│       │   ├── TabsProvider.tsx
+│       │   └── useTabs.ts
+│       ├── types.ts
+│       └── utils.ts
+│
+└── lib/
+    └── constants/
+        └── routes.ts         
 ```
 
 ---
 
 ## ⚙️ Core Architectural Decisions
 
-### 1. App Router over Pages Router
-- Enables **nested layouts**
-- Improves **code locality**
-- Supports **server-first rendering model**
+### 1. Feature-Based Architecture
+
+Instead of grouping by type (components, hooks), the project uses:
+
+- `features/projects`
+- `features/tabs`
+
+Each feature owns:
+- Components
+- Hooks
+- Types
+
+➡️ Improves **scalability and ownership boundaries**
 
 ---
 
-### 2. Static-First Rendering Strategy
+### 2. Layout System (AppShell)
 
-| Page            | Strategy | Reason |
-|-----------------|--------|--------|
-| Home            | SSG    | Fast load, no dynamic data |
-| Blog Listing    | SSG    | Content-driven, cacheable |
-| Blog `[slug]`   | SSG    | Pre-rendered for SEO + performance |
-| Contact         | Static | Minimal interactivity |
+- `AppShell` acts as the **composition root**
+- Injects:
+  - Sidebar
+  - Topbar
+  - Tabs system
 
-➡️ Reduces runtime computation and improves **TTFB + SEO**
+➡️ UI behaves like a **multi-view application**, not static pages
 
 ---
 
-### 3. Dynamic Routing via `[slug]`
+### 3. Tabs System (Stateful UI Layer)
 
-- Decouples content from routing
+- Centralized via `TabsProvider`
+- Custom hook: `useTabs`
 - Enables:
-  - MDX integration (future)
-  - API-driven content (optional)
+  - Multi-tab navigation
+  - Persistent UI state
+
+➡️ Demonstrates **real-world state management design**
 
 ---
 
-### 4. Layout System (Global Composition)
+### 4. Separation of Concerns
 
-- `layout.tsx` acts as:
-  - Composition root
-  - Shared UI injector (Navbar, Footer)
-- Prevents duplication across pages
-
----
-
-### 5. Component Strategy
-
-- **Presentational components** → UI only
-- **Container logic** → isolated at page level
-- Avoid premature global state
+--------------------------------------------------
+| Layer        | Responsibility                  |
+|--------------|---------------------------------|
+| `app/`       | Routing & page composition      |
+| `features/`  | Business logic & domain modules |
+| `components/`| Reusable UI                     |
+| `lib/`       | Constants & utilities           |
+--------------------------------------------------
 
 ---
 
-## 🔄 Data Flow (Current vs Future)
+### 5. Static-First Rendering Strategy
+
+- Pages are designed to be **statically generated (SSG)**
+- Reduces runtime cost
+- Improves performance & SEO
+
+---
+
+## 🔄 Data Flow Strategy
 
 ### Current
 - Static / placeholder data
-- Build-time rendering
 
-### Planned Evolution
+### Planned
 - MDX-based blog system
-- Possible CMS integration
-- Incremental Static Regeneration (ISR)
+- Project metadata system
+- Optional API layer
 
 ---
 
@@ -113,56 +164,20 @@ src/
 
 ---
 
-## 🚀 Getting Started
-
-```bash
-git clone https://github.com/KanishkKa1/portfolio.git
-cd portfolio
-npm install
-npm run dev
-```
-
----
-
 ## 📈 Performance Considerations
 
 - Static generation minimizes server load
 - Reduced client-side JavaScript
 - Optimized routing via App Router
-- Future:
-  - Image optimization
-  - Code splitting
-  - Lighthouse optimization
 
 ---
 
-## 🚧 Roadmap
+## 📈 What Makes This Different
 
-- [ ] MDX-based blog system
-- [ ] SEO metadata optimization
-- [ ] Dark mode (theme system)
-- [ ] Project showcase module
-- [ ] Analytics integration
-- [ ] Performance benchmarking
-
----
-
-## ⚠️ Trade-offs & Limitations
-
-- No CMS integration yet → manual content management
-- Static-first approach limits real-time updates
-- Minimal interactivity (intentional for performance)
-
----
-
-## 🎯 What This Demonstrates
-
-This project reflects:
-
-- Ability to **design systems, not just components**
-- Understanding of **rendering strategies (SSG vs SSR)**
-- Clean **routing and layout composition**
-- Focus on **performance and scalability**
+- Implements **feature-driven architecture**
+- Includes a **custom tab system (like an IDE)**
+- Demonstrates **state management patterns**
+- Designed as a **scalable frontend system**
 
 ---
 
@@ -170,9 +185,3 @@ This project reflects:
 
 > UI is temporary. Architecture scales.  
 > This project is built to reflect **long-term engineering thinking**, not short-term visuals.
-
----
-
-## 📬 Contact
-
-Available via the contact page or professional platforms.
