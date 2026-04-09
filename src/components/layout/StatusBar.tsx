@@ -15,7 +15,7 @@ export function StatusBar() {
     // otherwise fallback to the class. We'll implement a clean system-matching here.
     const root = window.document.documentElement;
     const isSystemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    
+
     // We force the class based on system pref on mount if desired
     if (isSystemDark && !root.classList.contains("dark")) {
       root.classList.add("dark");
@@ -42,14 +42,20 @@ export function StatusBar() {
   return (
     <div className="relative flex h-6 w-full items-center justify-between bg-[#007acc] px-3 text-[11px] text-white dark:bg-[#007acc]">
       {/* Left section */}
-      <div className="flex h-full items-center gap-4">
-        <div className="flex h-full items-center gap-1.5 hover:bg-white/10 px-1.5 cursor-pointer">
-          <FileCode className="h-3.5 w-3.5" />
-          <span>{pathname === "/" ? "kanishk-workspace" : pathname}</span>
+      <div className="flex h-full items-center gap-1 sm:gap-3 overflow-hidden">
+        <div className="flex h-full items-center gap-1.5 hover:bg-white/10 px-1.5 cursor-pointer shrink-0">
+          <FileCode className="h-3.5 w-3.5 shrink-0" />
+          <span className="truncate max-w-[100px] sm:max-w-none">{pathname === "/" ? "DevSpace" : pathname}</span>
         </div>
-        <div className="flex h-full items-center gap-1.5 hover:bg-white/10 px-1.5 cursor-pointer">
-          <CheckCircle className="h-3 w-3" />
+        <div className="hidden sm:flex h-full items-center gap-1.5 hover:bg-white/10 px-1.5 cursor-pointer shrink-0">
+          <CheckCircle className="h-3 w-3 shrink-0" />
           <span>Prettier</span>
+        </div>
+        <div className="flex h-full items-center gap-1.5 hover:bg-white/10 px-1.5 cursor-pointer font-mono shrink-0">
+          <span className="text-white/70">system_status:</span><span className="text-[#4ec9b0]">active</span>
+        </div>
+        <div className="hidden md:flex h-full items-center gap-1.5 hover:bg-white/10 px-1.5 cursor-pointer font-mono shrink-0">
+          <span className="text-white/70">focus:</span><span className="text-[#ce9178]">backend_systems</span>
         </div>
       </div>
 
@@ -63,7 +69,7 @@ export function StatusBar() {
           {isDark ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
           <span className="hidden sm:inline">{isDark ? "Light" : "Dark"}</span>
         </button>
-        <button 
+        <button
           className="flex h-full items-center hover:bg-white/10 px-1.5"
           onClick={() => setShowNotifications(!showNotifications)}
         >

@@ -15,9 +15,9 @@ export const routes: RouteNode[] = [
         label: "devspace",
         children: [
             {
-                label: "profile.md",
+                label: "Home",
                 path: "/",
-                tab: false,
+                tab: true,
             },
             {
                 label: "experience.md",
@@ -28,56 +28,61 @@ export const routes: RouteNode[] = [
                 label: "contact.md",
                 path: "/contact",
                 tab: false,
+            }
+        ]
+    },
+    {
+        label: "projects",
+        children: [
+            {
+                label: "projects.json",
+                path: "/projects",
+                tab: true,
+            }
+        ]
+    },
+    {
+        label: "leetcode",
+        children: [
+            {
+                label: "solutions.ts",
+                path: "/leetcode",
+                tab: true,
+            }
+        ]
+    },
+    {
+        label: "systems",
+        children: [
+            {
+                label: "scheduler.cpp",
+                path: "/systems/scheduler",
+                tab: true,
             },
             {
-                label: "projects",
-                children: [
-                    {
-                        label: "index.ts",
-                        path: "/projects",
-                        tab: true,
-                    }
-                ]
+                label: "mcp.cpp",
+                path: "/systems/mcp",
+                tab: true,
             },
             {
-                label: "leetcode",
-                children: [
-                    {
-                        label: "hub.ts",
-                        path: "/leetcode",
-                        tab: true,
-                    }
-                ]
+                label: "langgraph.cpp",
+                path: "/systems/langgraph",
+                tab: true,
+            },
+        ],
+    },
+    {
+        label: "blogs",
+        children: [
+            {
+                label: "notes.md",
+                path: "/blog",
+                tab: true,
             },
             {
-                label: "systems",
-                children: [
-                    {
-                        label: "scheduler.cpp",
-                        path: "/systems/scheduler",
-                        tab: true,
-                    },
-                    {
-                        label: "mcp.cpp",
-                        path: "/systems/mcp",
-                        tab: true,
-                    },
-                    {
-                        label: "langgraph.cpp",
-                        path: "/systems/langgraph",
-                        tab: true,
-                    },
-                ],
-            },
-            {
-                label: "blogs",
-                children: [
-                    {
-                        label: "posts.md",
-                        path: "/blog",
-                        tab: true,
-                    }
-                ]
+                label: "latency_optimization.md",
+                path: "/blog/latency-optimization",
+                tab: true,
             }
         ]
     }
