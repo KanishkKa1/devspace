@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AppShell } from "@/components/layout/AppShell";
-import { CustomCursor } from "@/components/ui/CustomCursor";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +30,6 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="h-full w-full overflow-hidden bg-white text-slate-900 border-slate-200 dark:bg-[#1e1e1e] dark:text-[#cccccc] dark:border-[#333333]">
-        <CustomCursor />
         <AppShell>{children}</AppShell>
       </body>
     </html>

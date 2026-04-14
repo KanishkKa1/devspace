@@ -32,26 +32,6 @@ export const routes: RouteNode[] = [
         ]
     },
     {
-        label: "projects",
-        children: [
-            {
-                label: "projects.json",
-                path: "/projects",
-                tab: true,
-            }
-        ]
-    },
-    {
-        label: "leetcode",
-        children: [
-            {
-                label: "solutions.ts",
-                path: "/leetcode",
-                tab: true,
-            }
-        ]
-    },
-    {
         label: "systems",
         children: [
             {
@@ -70,6 +50,26 @@ export const routes: RouteNode[] = [
                 tab: true,
             },
         ],
+    },
+    {
+        label: "projects",
+        children: [
+            {
+                label: "vector<T>.cpp",
+                path: "/projects/custom-vector",
+                tab: true,
+            }
+        ]
+    },
+    {
+        label: "leetcode",
+        children: [
+            {
+                label: "solutions.ts",
+                path: "/leetcode",
+                tab: true,
+            }
+        ]
     },
     {
         label: "blogs",

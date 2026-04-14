@@ -5,6 +5,9 @@
   --color-foreground: var(--foreground);
 }
 
+@custom-variant dark (&:is(.dark *));
+
+
 @layer base {
   :root {
     --background: #ffffff;
