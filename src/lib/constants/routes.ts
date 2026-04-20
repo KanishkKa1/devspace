@@ -83,6 +83,11 @@ export const routes: RouteNode[] = [
                 label: "latency_optimization.md",
                 path: "/blog/latency-optimization",
                 tab: true,
+            },
+            {
+                label: "workflow_optimization.md",
+                path: "/blog/workflow-optimization",
+                tab: true,
             }
         ]
     }
