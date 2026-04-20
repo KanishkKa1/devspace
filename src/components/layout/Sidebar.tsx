@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useState } from "react";
-import { ChevronRight, ChevronDown, Folder, FileCode, Menu } from "lucide-react";
+import { ChevronRight, ChevronDown, Folder, FileCode, Menu, Cpu, BookOpen, User, Box, Trophy, Settings, Terminal, FileText, FileJson, Layout } from "lucide-react";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -15,9 +15,27 @@ interface SidebarProps {
 function SidebarItem({ node, indent = 0, isSidebarOpen }: { node: RouteNode; indent?: number; isSidebarOpen: boolean }) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(true);
+  const isFolder = !!node.children && node.children.length > 0;
+  const isActive = pathname === node.path;
 
-  const isFolder = !!node.children;
-  const isActive = node.path === pathname;
+  const getFolderIcon = (label: string) => {
+    const l = label.toLowerCase();
+    if (l === "systems") return <Cpu className="h-4 w-4 shrink-0 text-blue-500 fill-blue-500/10 group-hover:scale-110 transition-transform duration-200" />;
+    if (l === "blogs" || l === "blog") return <BookOpen className="h-4 w-4 shrink-0 text-emerald-500 fill-emerald-500/10 group-hover:scale-110 transition-transform duration-200" />;
+    if (l === "devspace") return <User className="h-4 w-4 shrink-0 text-indigo-500 fill-indigo-500/10 group-hover:scale-110 transition-transform duration-200" />;
+    if (l === "projects") return <Box className="h-4 w-4 shrink-0 text-amber-500 fill-amber-500/10 group-hover:scale-110 transition-transform duration-200" />;
+    if (l === "leetcode") return <Trophy className="h-4 w-4 shrink-0 text-orange-500 fill-orange-500/10 group-hover:scale-110 transition-transform duration-200" />;
+    return <Folder className="h-4 w-4 shrink-0 text-slate-400 group-hover:scale-110 transition-transform duration-200" />;
+  };
+
+  const getFileIcon = (label: string) => {
+    const l = label.toLowerCase();
+    if (l.endsWith(".cpp")) return <FileCode className="h-4 w-4 shrink-0 text-blue-500 group-hover:scale-110 transition-transform duration-200" />;
+    if (l.endsWith(".ts") || l.endsWith(".tsx")) return <FileJson className="h-4 w-4 shrink-0 text-yellow-500 group-hover:scale-110 transition-transform duration-200" />;
+    if (l.endsWith(".md")) return <FileText className="h-4 w-4 shrink-0 text-slate-400 group-hover:scale-110 transition-transform duration-200" />;
+    if (l === "home") return <Layout className="h-4 w-4 shrink-0 text-indigo-400 group-hover:scale-110 transition-transform duration-200" />;
+    return <FileCode className="h-4 w-4 shrink-0 text-slate-400 group-hover:scale-110 transition-transform duration-200" />;
+  };
 
   if (isFolder) {
     return (
@@ -30,14 +48,18 @@ function SidebarItem({ node, indent = 0, isSidebarOpen }: { node: RouteNode; ind
             if (!isSidebarOpen) return;
             setIsOpen((prev) => !prev);
           }}
-          className="flex flex-1 items-center gap-1.5 py-1 px-2 text-sm text-slate-700 hover:bg-neutral-200 dark:text-[#cccccc] dark:hover:bg-neutral-800 select-none transition-colors duration-200 group whitespace-nowrap"
+          title={!isSidebarOpen ? node.label : undefined}
+          className={cn(
+            "flex flex-1 items-center gap-1.5 py-1 px-2 text-sm text-slate-700 hover:bg-neutral-200 dark:text-[#cccccc] dark:hover:bg-neutral-800 select-none transition-colors duration-200 group whitespace-nowrap",
+            !isSidebarOpen && "border-l-2 border-transparent hover:border-blue-500/50"
+          )}
           style={{ 
             paddingLeft: isSidebarOpen ? `${indent * 12 + 8}px` : '0px', 
             justifyContent: isSidebarOpen ? 'flex-start' : 'center',
           }}
         >
           {isSidebarOpen && (isOpen ? <ChevronDown className="h-3.5 w-3.5 shrink-0" /> : <ChevronRight className="h-3.5 w-3.5 shrink-0" />)}
-          <Folder className="h-4 w-4 shrink-0 text-blue-500 fill-blue-500/20 dark:text-[#5ce4ce] dark:fill-[#5ce4ce]/20 group-hover:scale-110 transition-transform duration-200" />
+          {getFolderIcon(node.label)}
           {isSidebarOpen && <span className="truncate">{node.label}</span>}
         </button>
         {isOpen && isSidebarOpen && (
@@ -66,7 +88,7 @@ function SidebarItem({ node, indent = 0, isSidebarOpen }: { node: RouteNode; ind
       }}
     >
       {isSidebarOpen && <span className="w-3.5 shrink-0" />} {/* Spacer aligning with chevron */}
-      <FileCode className="h-4 w-4 shrink-0 text-yellow-500 group-hover:scale-110 transition-transform duration-200" />
+      {getFileIcon(node.label)}
       {isSidebarOpen && <span className="truncate">{node.label}</span>}
     </Link>
   );

@@ -8,7 +8,7 @@ function ExpandablePill({ title, content, colorClass, icon: Icon }: { title: str
   const [expanded, setExpanded] = useState(false);
   return (
     <div className="relative inline-block">
-      <button 
+      <button
         onClick={() => setExpanded(!expanded)}
         className={`px-2.5 py-1.5 rounded-md text-xs font-mono flex items-center gap-1.5 transition-all outline-none focus:ring-2 focus:ring-blue-500/50 cursor-pointer ${colorClass} hover:brightness-110`}
       >
@@ -227,7 +227,7 @@ int main() {
   const failureOutputString = `[FATAL] std::bad_alloc: memory allocation failed
 Error: Process terminated due to Out-Of-Memory (OOM) signal.
 System exhausted all available RAM.
-Scheduler failed at queue depth: 8,495,201`;
+scheduler failed at queue depth: 8,495,201`;
   const benchmarkCodeString = `// Snippet: 10,000 Tasks Performance Benchmark
 auto start = std::chrono::high_resolution_clock::now();
 
@@ -259,9 +259,9 @@ std::cout << "Executed 10,000 tasks in " << diff.count() << " ms\\n";`;
         <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
           C++ Concurrent Task Scheduler
         </h1>
-        <a 
-          href="https://github.com/KanishkKa1/devspace" 
-          target="_blank" 
+        <a
+          href="https://github.com/KanishkKa1/cpp_TaskScheduler"
+          target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-md transition-colors w-fit border border-slate-200 dark:border-slate-700"
         >
@@ -277,7 +277,7 @@ std::cout << "Executed 10,000 tasks in " << diff.count() << " ms\\n";`;
         <h2 className="text-xl font-semibold mb-3 text-slate-800 dark:text-slate-200">The Problem</h2>
         <div className="prose dark:prose-invert max-w-none text-slate-600 dark:text-[#cccccc]">
           <p>
-            Spawning new threads for short-lived tasks is heavily CPU bound and introduces significant overhead from the OS context switching. In high-throughput backend services (like a distributed job runner or database engine), naive thread spawning can quickly exhaust system resources and lead to thrashing.
+            Spawning new threads for short-lived tasks is heavily CPU bound and introduces significant overhead from the OS context switching. In high-throughput backend services (like a distributed job runner or database scheduler), naive thread spawning can quickly exhaust system resources and lead to thrashing.
           </p>
         </div>
       </section>
@@ -359,7 +359,7 @@ std::cout << "Executed 10,000 tasks in " << diff.count() << " ms\\n";`;
       <section className="mb-12">
         <h2 className="text-xl font-semibold mb-6 text-slate-800 dark:text-slate-200">System Visual Flows</h2>
         <div className="space-y-8">
-          
+
           {/* Flow 1 */}
           <div>
             <h3 className="font-medium text-slate-800 dark:text-slate-300 mb-3 text-sm flex items-center gap-2">
@@ -369,8 +369,8 @@ std::cout << "Executed 10,000 tasks in " << diff.count() << " ms\\n";`;
             <div className="flex flex-wrap items-center gap-2">
               <span className="px-2.5 py-1.5 bg-slate-100 border border-slate-200 dark:bg-[#252526] dark:border-[#333333] rounded-md text-xs font-mono text-slate-700 dark:text-[#cccccc]">Producer</span>
               <ArrowRight className="h-3.5 w-3.5 text-slate-400 dark:text-[#6a9955]" />
-              <ExpandablePill 
-                title="Lock" 
+              <ExpandablePill
+                title="Lock"
                 icon={Lock}
                 colorClass="bg-amber-50 border border-amber-200 dark:bg-[#2e2614] dark:border-[#4d3e1d] text-amber-700 dark:text-[#ffd700]"
                 content={
@@ -383,8 +383,8 @@ std::cout << "Executed 10,000 tasks in " << diff.count() << " ms\\n";`;
               <ArrowRight className="h-3.5 w-3.5 text-slate-400 dark:text-[#6a9955]" />
               <span className="px-2.5 py-1.5 bg-slate-100 border border-slate-200 dark:bg-[#252526] dark:border-[#333333] rounded-md text-xs font-mono text-slate-700 dark:text-[#cccccc]">enqueue</span>
               <ArrowRight className="h-3.5 w-3.5 text-slate-400 dark:text-[#6a9955]" />
-              <ExpandablePill 
-                title="Unlock" 
+              <ExpandablePill
+                title="Unlock"
                 icon={Unlock}
                 colorClass="bg-blue-50 border border-blue-200 dark:bg-[#1a2333] dark:border-[#2a3a55] text-blue-700 dark:text-[#8bd8f9]"
                 content={
@@ -397,8 +397,8 @@ std::cout << "Executed 10,000 tasks in " << diff.count() << " ms\\n";`;
               <ArrowRight className="h-3.5 w-3.5 text-slate-400 dark:text-[#6a9955]" />
               <span className="px-2.5 py-1.5 bg-slate-100 border border-slate-200 dark:bg-[#252526] dark:border-[#333333] rounded-md text-xs font-mono text-slate-700 dark:text-[#cccccc]">notify_one</span>
               <ArrowRight className="h-3.5 w-3.5 text-slate-400 dark:text-[#6a9955]" />
-              <ExpandablePill 
-                title="Execute" 
+              <ExpandablePill
+                title="Execute"
                 icon={Play}
                 colorClass="bg-emerald-50 border border-emerald-200 dark:bg-[#1e2e24] dark:border-[#2e4d3a] text-emerald-700 dark:text-[#5ce4ce]"
                 content={
@@ -439,8 +439,8 @@ std::cout << "Executed 10,000 tasks in " << diff.count() << " ms\\n";`;
           {/* Flow 3 */}
           <div>
             <h3 className="font-medium text-slate-800 dark:text-slate-300 mb-3 text-sm flex items-center gap-2">
-               <span className="flex h-5 w-5 items-center justify-center rounded bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-500 text-xs font-bold">3</span>
-               Backpressure
+              <span className="flex h-5 w-5 items-center justify-center rounded bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-500 text-xs font-bold">3</span>
+              Backpressure
             </h3>
             <div className="flex flex-wrap items-center gap-2">
               <span className="px-2.5 py-1.5 bg-rose-50 border border-rose-200 dark:bg-[#3d1a1f] dark:border-[#632029] rounded-md text-xs font-mono text-rose-700 dark:text-[#f14c4c]">Queue Full</span>
@@ -499,13 +499,13 @@ std::cout << "Executed 10,000 tasks in " << diff.count() << " ms\\n";`;
             <li><strong>Deadlocks</strong> → avoided via strict lock boundaries</li>
           </ul>
         </div>
-        
+
         <div className="mt-8">
           <h3 className="font-medium text-slate-800 dark:text-slate-300 mb-3 text-sm flex items-center gap-2">
             <span className="flex h-5 w-5 items-center justify-center rounded bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-500 text-xs font-bold">!</span>
             Memory Exhaustion (Anti-Pattern)
           </h3>
-          <CodeBlock 
+          <CodeBlock
             code={failureCodeString}
             language="cpp"
             output={failureOutputString}
@@ -560,7 +560,7 @@ std::cout << "Executed 10,000 tasks in " << diff.count() << " ms\\n";`;
         </div>
 
         <div className="mb-8">
-          <CodeBlock 
+          <CodeBlock
             code={benchmarkCodeString}
             language="cpp"
             output="Executed 10,000 tasks in 241.13 ms"
@@ -621,14 +621,14 @@ std::cout << "Executed 10,000 tasks in " << diff.count() << " ms\\n";`;
       <div className="mb-16 shadow-xl rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 mt-12">
         <div className="bg-slate-100 dark:bg-[#1e1e1e] px-4 py-3 border-b border-slate-200 dark:border-[#333333] flex items-center gap-2">
           <div className="flex gap-1.5">
-             <div className="w-3 h-3 rounded-full bg-rose-500/80"></div>
-             <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
-             <div className="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+            <div className="w-3 h-3 rounded-full bg-rose-500/80"></div>
+            <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
+            <div className="w-3 h-3 rounded-full bg-emerald-500/80"></div>
           </div>
           <span className="text-xs font-mono text-slate-500 dark:text-slate-400 ml-2">scheduler.cpp</span>
         </div>
         <div className="[&>div]:!rounded-none [&>div]:!border-none [&>div]:!m-0">
-          <CodeBlock 
+          <CodeBlock
             code={codeString}
             language="cpp"
             output={outputString}
@@ -667,7 +667,7 @@ std::cout << "Executed 10,000 tasks in " << diff.count() << " ms\\n";`;
             </div>
           </div>
         </div>
-        
+
         <div>
           <h2 className="text-xl font-semibold mb-3 text-slate-800 dark:text-slate-200 flex items-center gap-2">
             <span className="flex h-5 w-5 items-center justify-center rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-500 text-xs font-bold">✓</span>
@@ -701,7 +701,7 @@ std::cout << "Executed 10,000 tasks in " << diff.count() << " ms\\n";`;
         <h2 className="text-2xl font-bold mb-8 text-slate-900 dark:text-white pb-2 border-b border-slate-200 dark:border-slate-800">
           Advanced Architectural Concepts
         </h2>
-        
+
         <div className="space-y-8">
           <div>
             <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">Work Stealing Architectures</h3>
@@ -710,10 +710,10 @@ std::cout << "Executed 10,000 tasks in " << diff.count() << " ms\\n";`;
             </p>
             <div className="mb-8 shadow-xl rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
               <div className="bg-slate-100 dark:bg-[#1e1e1e] px-4 py-3 border-b border-slate-200 dark:border-[#333333] flex items-center justify-between">
-                <span className="text-xs font-mono text-slate-500 dark:text-slate-400 font-semibold tracking-wide flex items-center gap-2"><Lock className="w-3.5 h-3.5 text-blue-500"/> WorkStealingDeque.hpp</span>
+                <span className="text-xs font-mono text-slate-500 dark:text-slate-400 font-semibold tracking-wide flex items-center gap-2"><Lock className="w-3.5 h-3.5 text-blue-500" /> WorkStealingDeque.hpp</span>
               </div>
               <div className="[&>div]:!rounded-none [&>div]:!border-none [&>div]:!m-0">
-                <CodeBlock 
+                <CodeBlock
                   language="cpp"
                   code={`class WorkStealingQueue {
     std::deque<std::function<void()>> local_queue;
@@ -766,10 +766,10 @@ All tasks dispatched. No global lock contention.`}
           <div>
             <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">Futures & Async Result Handling</h3>
             <p className="text-slate-600 dark:text-[#cccccc] leading-relaxed">
-              Fire-and-forget void lambdas limit usability. Integrating <code className="bg-slate-100 dark:bg-[#333] px-1 py-0.5 rounded font-mono text-pink-600 dark:text-pink-400">std::future</code> and <code className="bg-slate-100 dark:bg-[#333] px-1 py-0.5 rounded font-mono text-pink-600 dark:text-pink-400">std::packaged_task</code> allows producers to enqueue tasks that yield values. This effectively turns the scheduler into an asynchronous task graph engine where consumers can map results or await compute-heavy functions asynchronously, bridging the gap between naive threading and complex actor systems.
+              Fire-and-forget void lambdas limit usability. Integrating <code className="bg-slate-100 dark:bg-[#333] px-1 py-0.5 rounded font-mono text-pink-600 dark:text-pink-400">std::future</code> and <code className="bg-slate-100 dark:bg-[#333] px-1 py-0.5 rounded font-mono text-pink-600 dark:text-pink-400">std::packaged_task</code> allows producers to enqueue tasks that yield values. This effectively turns the scheduler into an asynchronous task graph scheduler where consumers can map results or await compute-heavy functions asynchronously, bridging the gap between naive threading and complex actor systems.
             </p>
           </div>
-          
+
           <div>
             <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">Dynamic Thread Resizing</h3>
             <p className="text-slate-600 dark:text-[#cccccc] leading-relaxed">
