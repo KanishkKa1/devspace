@@ -65,7 +65,7 @@ export const routes: RouteNode[] = [
         label: "leetcode",
         children: [
             {
-                label: "solutions.ts",
+                label: "patterns.ts",
                 path: "/leetcode",
                 tab: true,
             }
@@ -75,7 +75,7 @@ export const routes: RouteNode[] = [
         label: "blogs",
         children: [
             {
-                label: "notes.md",
+                label: "thinking.md",
                 path: "/blog",
                 tab: true,
             },

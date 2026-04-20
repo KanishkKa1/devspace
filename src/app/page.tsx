@@ -1,8 +1,104 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FilePlus, Target, BookOpen, Mail, ChevronRight, Download, Code2, Play, ExternalLink, ArrowRight, Terminal, Briefcase, FileText, FileCode } from "lucide-react";
+
+function useTypingEffect(text: string, speed = 60, startDelay = 0) {
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    setDisplayed("");
+    setDone(false);
+    let i = 0;
+    const timeout = setTimeout(() => {
+      const interval = setInterval(() => {
+        i++;
+        setDisplayed(text.slice(0, i));
+        if (i >= text.length) {
+          clearInterval(interval);
+          setDone(true);
+        }
+      }, speed);
+      return () => clearInterval(interval);
+    }, startDelay);
+    return () => clearTimeout(timeout);
+  }, [text, speed, startDelay]);
+
+  return { displayed, done };
+}
+
+function TypingText({ text, speed = 60, startDelay = 0, className = "" }: { text: string; speed?: number; startDelay?: number; className?: string }) {
+  const { displayed, done } = useTypingEffect(text, speed, startDelay);
+  return (
+    <span className={className}>
+      {displayed}
+      <span
+        className={`inline-block w-[0.55ch] ${done ? "animate-[blink_1s_step-end_infinite]" : ""}`}
+        style={{ color: "inherit", opacity: done ? undefined : 1 }}
+      >_</span>
+    </span>
+  );
+}
+
+function RotatingTypingText({ 
+  texts, 
+  typingSpeed = 60, 
+  deletingSpeed = 30, 
+  pauseDuration = 5000,
+  className = "" 
+}: { 
+  texts: string[]; 
+  typingSpeed?: number; 
+  deletingSpeed?: number; 
+  pauseDuration?: number;
+  className?: string 
+}) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [displayedText, setDisplayedText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isWaiting, setIsWaiting] = useState(false);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+
+    const currentFullText = texts[currentIndex];
+
+    if (isWaiting) {
+      timer = setTimeout(() => {
+        setIsWaiting(false);
+        setIsDeleting(true);
+      }, pauseDuration);
+    } else if (isDeleting) {
+      if (displayedText.length === 0) {
+        setIsDeleting(false);
+        setCurrentIndex((prev) => (prev + 1) % texts.length);
+      } else {
+        timer = setTimeout(() => {
+          setDisplayedText(prev => prev.slice(0, -1));
+        }, deletingSpeed);
+      }
+    } else {
+      if (displayedText.length === currentFullText.length) {
+        setIsWaiting(true);
+      } else {
+        timer = setTimeout(() => {
+          setDisplayedText(currentFullText.slice(0, displayedText.length + 1));
+        }, typingSpeed);
+      }
+    }
+
+    return () => clearTimeout(timer);
+  }, [displayedText, isDeleting, isWaiting, currentIndex, texts, typingSpeed, deletingSpeed, pauseDuration]);
+
+  return (
+    <span className={className}>
+      {displayedText}
+      <span className="inline-block w-[0.55ch] animate-[blink_1s_step-end_infinite]">_</span>
+    </span>
+  );
+}
 
 function GithubIcon({ className }: { className?: string }) {
   return (
@@ -42,15 +138,24 @@ export default function Home() {
 
           <div className="relative group cursor-default">
             <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-slate-900 dark:text-white mb-2 transition-all duration-200">
-              Kanishk Agarwal
+              <TypingText text="Kanishk Agarwal" speed={55} startDelay={200} />
             </h1>
             <div className="absolute -inset-x-6 -inset-y-4 rounded-lg bg-slate-100/50 dark:bg-neutral-800/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-lg -z-10" />
           </div>
 
           <div className="flex items-center gap-3 text-sm md:text-base font-mono text-slate-700 dark:text-[#ce9178] bg-slate-100 dark:bg-neutral-800/50 px-4 py-2.5 rounded border border-slate-200 dark:border-neutral-800 shadow-sm transform hover:scale-[1.02] transition-all duration-200">
             <span className="text-green-600 dark:text-[#4af626] font-bold select-none">&gt;</span>
-            <span className="text-slate-800 dark:text-[#ce9178]">C++ Backend Engineer | Building Low-Latency Systems</span>
-            <span className="w-2 h-4 bg-slate-400 dark:bg-[#ce9178] animate-pulse inline-block ml-1" />
+            <span className="text-slate-800 dark:text-[#ce9178] min-h-[1.5em] flex items-center">
+              <RotatingTypingText 
+                texts={[
+                  "C++ Backend Engineer", 
+                  "Building Low-Latency Systems", 
+                  "Distributed Systems Engineer", 
+                  "Systems Engineer", 
+                  "Site Reliability Engineer"
+                ]} 
+              />
+            </span>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 mt-6 w-full sm:w-auto">
@@ -60,7 +165,7 @@ export default function Home() {
               className="group w-full sm:w-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white dark:bg-blue-600 dark:hover:bg-blue-500 px-6 py-3 rounded shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transition-all duration-150 hover:scale-105 focus:ring-2 focus:ring-blue-500 font-medium text-base"
             >
               <FileCode className="h-4 w-4 transform group-hover:scale-110 transition-all duration-200" />
-              <span>⭐ View Scheduler Project</span>
+              <span>⭐ View Task Scheduler</span>
             </Link>
 
             {/* Secondary CTA */}
@@ -104,15 +209,15 @@ export default function Home() {
             <div className="flex justify-between items-start gap-4 relative z-10">
               <div>
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
-                  C++ Task Scheduler
+                  C++ Concurrent Task Scheduler
                 </h3>
                 <ul className="space-y-2 text-slate-600 dark:text-[#9cdcfe] font-mono text-sm mb-6 list-inside list-disc">
-                  <li className="transition-all duration-200 hover:text-slate-900 dark:hover:text-white">Multithreaded task scheduler using thread pool</li>
-                  <li className="transition-all duration-200 hover:text-slate-900 dark:hover:text-white">Concurrent job execution with queue-based scheduling</li>
-                  <li className="transition-all duration-200 hover:text-slate-900 dark:hover:text-white">Designed for low-latency and high-throughput systems</li>
+                  <li className="transition-all duration-200 hover:text-slate-900 dark:hover:text-white">High-performance thread pool implementation with worker reuse</li>
+                  <li className="transition-all duration-200 hover:text-slate-900 dark:hover:text-white">Bounded queue with backpressure for system stability</li>
+                  <li className="transition-all duration-200 hover:text-slate-900 dark:hover:text-white">Modern C++ (std::future, std::packaged_task) for async results</li>
                   <li className="transition-all duration-200 hover:text-slate-900 dark:hover:text-white mt-3">
                     <Link href="/blog/latency-optimization" className="text-green-600 dark:text-green-500 hover:underline hover:text-green-500 transition-colors cursor-pointer">
-                      Reduced latency from 6s → 0.8s (Read Case Study)
+                      Reduced scheduling overhead & latency (Read Case Study)
                     </Link>
                   </li>
                 </ul>
@@ -175,7 +280,7 @@ export default function Home() {
                 <Link href="/systems/scheduler" className="group flex flex-col sm:flex-row sm:items-center justify-between hover:bg-neutral-100 dark:hover:bg-neutral-800 p-2 rounded cursor-pointer transition-colors duration-150">
                   <div className="flex items-center gap-3">
                     <FilePlus className="h-4 w-4 text-blue-500 dark:text-[#569cd6] shrink-0" />
-                    <span className="text-slate-800 dark:text-neutral-200 font-medium group-hover:text-blue-600 dark:group-hover:text-[#569cd6] transition-colors duration-200 truncate">Multithreaded Scheduler System</span>
+                    <span className="text-slate-800 dark:text-neutral-200 font-medium group-hover:text-blue-600 dark:group-hover:text-[#569cd6] transition-colors duration-200 truncate">High-Performance Task Scheduler</span>
                   </div>
                   <span className="text-xs text-slate-500 dark:text-[#6a9955] sm:ml-4 mt-1 sm:mt-0 truncate">scheduler.cpp</span>
                 </Link>
@@ -222,8 +327,8 @@ export default function Home() {
                 <Link href="/systems/scheduler" className="group flex items-start gap-3 hover:bg-neutral-100 dark:hover:bg-neutral-800 p-2 rounded cursor-pointer transition-colors duration-150">
                   <ArrowRight className="h-4 w-4 mt-0.5 text-slate-400 dark:text-neutral-500 group-hover:translate-x-1 transition-transform duration-200 group-hover:text-blue-500 shrink-0" />
                   <div className="flex flex-col">
-                    <span className="text-slate-800 dark:text-neutral-200 font-medium group-hover:text-blue-600 dark:group-hover:text-[#569cd6] transition-colors duration-200">Improved Scheduler Architecture</span>
-                    <span className="text-xs text-slate-500 dark:text-[#858585] mt-0.5">Refactored multithreading implementation</span>
+                    <span className="text-slate-800 dark:text-neutral-200 font-medium group-hover:text-blue-600 dark:group-hover:text-[#569cd6] transition-colors duration-200">Multithreaded System Design</span>
+                    <span className="text-xs text-slate-500 dark:text-[#858585] mt-0.5">Optimized thread pool & queue implementation</span>
                   </div>
                 </Link>
               </li>
