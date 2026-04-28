@@ -76,7 +76,7 @@ public:
             Standard <code>std::unordered_map</code> plus <code>std::list</code> isn't thread-safe. A common backend pattern is implementing thread-safe eviction policies. While a single global mutex works conceptually, real-world implementations require <strong>Lock Striping</strong> or <strong>Sharding</strong> by key hash to prevent disastrous thread contention under load.
           </p>
           <div className="border border-slate-200 dark:border-neutral-800 rounded overflow-hidden">
-             <CodeBlock code={lruCode} language="cpp" showLineNumbers={false} />
+             <CodeBlock code={lruCode} language="cpp" />
           </div>
           <div className="mt-4 p-4 bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-700/50 rounded text-sm text-yellow-800 dark:text-yellow-500">
              <strong>Trade-off Note:</strong> Splitting the cache into `N` independent partitions (sharding) reduces lock contention significantly at the cost of slightly suboptimal global eviction ordering.
