@@ -6,20 +6,29 @@ export default function WorkflowOptimization() {
   return (
     <div className="max-w-4xl mx-auto px-6 py-10 pb-24 animate-fade-in-up">
       {/* Header Section */}
-      <div className="mb-12">
-        <div className="flex items-center gap-3 text-emerald-600 dark:text-emerald-400 font-mono text-sm mb-4">
-          <Split className="h-4 w-4" />
-          <span className="tracking-widest uppercase">Workflow Engineering</span>
+      <div className="mb-12 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-3 text-emerald-600 dark:text-emerald-400 font-mono text-sm mb-4">
+            <Split className="h-4 w-4" />
+            <span className="tracking-widest uppercase">Workflow Engineering</span>
+          </div>
+          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 leading-tight">
+            Critical Path Isolation: <br/>8s to 0.7s via Async Offloading
+          </h1>
+          <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+            <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> High Throughput</span>
+            <span className="flex items-center gap-1"><GitBranch className="h-3.5 w-3.5" /> Async Architecture</span>
+            <span>•</span>
+            <span>4 min read</span>
+          </div>
         </div>
-        <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 leading-tight">
-          Critical Path Isolation: <br/>8s to 0.7s via Async Offloading
-        </h1>
-        <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
-          <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> High Throughput</span>
-          <span className="flex items-center gap-1"><GitBranch className="h-3.5 w-3.5" /> Async Architecture</span>
-          <span>•</span>
-          <span>4 min read</span>
-        </div>
+        <a 
+          href="/blog"
+          className="flex items-center gap-2 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 px-4 py-2 rounded-md transition-colors w-fit border border-slate-200 dark:border-slate-700 shrink-0 mt-2 sm:mt-0"
+        >
+          <span>Back to Hub</span>
+          <ArrowRight className="h-4 w-4" />
+        </a>
       </div>
 
       <div className="prose prose-slate dark:prose-invert max-w-none">
@@ -104,13 +113,13 @@ export default function WorkflowOptimization() {
         </p>
 
         {/* Footer Navigation */}
-        <div className="pt-12 border-t border-slate-200 dark:border-neutral-800 flex justify-between items-center">
+        <a href="/blog" className="block pt-12 border-t border-slate-200 dark:border-neutral-800 flex justify-between items-center hover:opacity-80 transition-opacity cursor-pointer group">
           <div>
              <span className="text-xs text-slate-500 uppercase tracking-widest block mb-1">Context</span>
-             <h4 className="font-semibold text-slate-800 dark:text-slate-200">Workflow Architecture</h4>
+             <h4 className="font-semibold text-slate-800 dark:text-slate-200 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Return to System Thinking Hub</h4>
           </div>
-          <ArrowRight className="h-5 w-5 text-slate-400" />
-        </div>
+          <ArrowRight className="h-5 w-5 text-slate-400 group-hover:translate-x-1 transition-transform" />
+        </a>
       </div>
     </div>
   );
