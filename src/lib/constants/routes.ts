@@ -15,19 +15,24 @@ export const routes: RouteNode[] = [
         label: "devspace",
         children: [
             {
-                label: "Home",
+                label: "home",
                 path: "/",
+                tab: true,
+            },
+            {
+                label: "skills.md",
+                path: "/skills",
                 tab: true,
             },
             {
                 label: "experience.md",
                 path: "/experience",
-                tab: false,
+                tab: true,
             },
             {
                 label: "contact.md",
                 path: "/contact",
-                tab: false,
+                tab: true,
             }
         ]
     },
@@ -40,15 +45,15 @@ export const routes: RouteNode[] = [
                 tab: true,
             },
             {
-                label: "mcp.cpp",
-                path: "/systems/mcp",
+                label: "distribution_layer.cpp",
+                path: "/systems/distribution-layer",
                 tab: true,
             },
             {
-                label: "langgraph.cpp",
-                path: "/systems/langgraph",
+                label: "orchestrator.py",
+                path: "/systems/ai-orchestration",
                 tab: true,
-            },
+            }
         ],
     },
     {
@@ -62,10 +67,10 @@ export const routes: RouteNode[] = [
         ]
     },
     {
-        label: "leetcode",
+        label: "algorithms",
         children: [
             {
-                label: "patterns.ts",
+                label: "system_patterns.cpp",
                 path: "/leetcode",
                 tab: true,
             }
@@ -82,6 +87,16 @@ export const routes: RouteNode[] = [
             {
                 label: "latency_optimization.md",
                 path: "/blog/latency-optimization",
+                tab: true,
+            },
+            {
+                label: "websockets_scaling.md",
+                path: "/blog/websockets-case-study",
+                tab: true,
+            },
+            {
+                label: "async_workflow.md",
+                path: "/blog/async-workflow-case-study",
                 tab: true,
             },
             {
