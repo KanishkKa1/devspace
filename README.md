@@ -1,187 +1,258 @@
-# 🚀 DevSpace - System Design Driven Developer's Portfolio
+# 🚀 DevSpace — System Design Driven Developer Platform
 
 ---
 
-## 📌 Problem Statement
+## 1. Overview
 
-Most fail at scale due to:
+DevSpace is a **system design-oriented developer platform** built to simulate real-world application architecture inside a frontend environment.
 
-- Tight coupling between UI and logic
-- No modular separation (everything in pages/components)
-- Poor extensibility for features (projects, blogs, systems)
-- Lack of state architecture for complex UI/UX.
+Unlike traditional portfolios that focus on static presentation, this system is engineered to behave like a **stateful, multi-view application**, emphasizing:
 
-This project solves that by implementing:
-
-- **Feature-based architecture**
-- **Centralized layout system**
-- **Reusable UI primitives**
-- **Isolated state management**
+* Modular feature isolation
+* Stateful navigation (IDE-like tabs)
+* Scalable architecture for content domains (projects, blogs, systems)
+* Performance-first rendering strategy
 
 ---
 
-## 🧠 Design Goals
+## 2. Why This Exists
 
-- **Modularity** → Feature isolation (`features/*`)
-- **Scalability** → Add domains (projects, systems, blog) independently
-- **Maintainability** → Clear separation of concerns
-- **Performance** → Static-first rendering
-- **System Design Thinking** → UI behaves like an application, not a page
+Most frontend systems degrade at scale due to:
+
+* Tight coupling between routing, UI, and state
+* Lack of domain boundaries
+* Ad-hoc state management
+* Poor extensibility for new features
+
+DevSpace addresses this by enforcing **clear architectural contracts** between layers and treating UI as a **system**, not a collection of pages.
 
 ---
 
-## 🏗️ Architecture Overview
+## 3. System Architecture
 
-```bash
-src/
-├── app/                     
-│   ├── layout.tsx            
-│   ├── page.tsx              
-│   ├── blog/
-│   │   ├── page.tsx
-│   │   └── [slug]/page.tsx
-│   ├── projects/
-│   │   ├── page.tsx
-│   │   └── [slug]/page.tsx
-│   ├── leetcode/page.tsx
-│   ├── contact/page.tsx
-│   └── systems/              
-│       ├── langgraph/page.tsx
-│       ├── mcp/page.tsx
-│       └── scheduler/page.tsx
-│
-├── components/               
-│   ├── layout/               
-│   │   ├── AppShell.tsx      
-│   │   ├── Sidebar.tsx
-│   │   ├── Topbar.tsx
-│   │   └── Tabs.tsx          
-│   │
-│   ├── shared/               
-│   └── ui/                   
-│
-├── features/                 
-│   ├── projects/
-│   │   ├── components/
-│   │   ├── hooks/
-│   │   └── types.ts
-│   │
-│   └── tabs/
-│       ├── context/            
-│       │   ├── TabsProvider.tsx
-│       │   └── useTabs.ts
-│       ├── types.ts
-│       └── utils.ts
-│
-└── lib/
-    └── constants/
-        └── routes.ts         
+### High-Level Design
+
+```
+            ┌──────────────────────────┐
+            │        App Router        │
+            │  (Routing / Entry Layer) │
+            └────────────┬─────────────┘
+                         │
+                         ▼
+            ┌──────────────────────────┐
+            │        AppShell          │
+            │  (Composition Root)      │
+            └────────────┬─────────────┘
+                         │
+    ┌───────────────┬────┴───────────────┬───────────────┐
+    ▼               ▼                    ▼               ▼
+```
+
+Sidebar          Topbar              Tabs System     Page Content
+(State Layer)
+
+```
+                         │
+                         ▼
+            ┌──────────────────────────┐
+            │       Features Layer     │
+            │ (Projects, Tabs, etc.)  │
+            └────────────┬─────────────┘
+                         │
+                         ▼
+            ┌──────────────────────────┐
+            │     Shared Components    │
+            └──────────────────────────┘
 ```
 
 ---
 
-## ⚙️ Core Architectural Decisions
+## 4. Request Lifecycle (Critical)
 
-### 1. Feature-Based Architecture
+1. Route is resolved via Next.js App Router
+2. Page is injected into `AppShell`
+3. `AppShell` composes:
 
-Instead of grouping by type (components, hooks), the project uses:
+   * Sidebar
+   * Topbar
+   * Tabs system
+4. `TabsProvider` initializes or updates state
+5. Page content is rendered inside active tab context
 
-- `features/projects`
-- `features/tabs`
-
-Each feature owns:
-- Components
-- Hooks
-- Types
-
-➡️ Improves **scalability and ownership boundaries**
+➡️ This mimics **multi-session UI state handling**, similar to IDEs or dashboards
 
 ---
 
-### 2. Layout System (AppShell)
+## 5. Core Engineering Highlights
 
-- `AppShell` acts as the **composition root**
-- Injects:
-  - Sidebar
-  - Topbar
-  - Tabs system
+### 5.1 Feature-Based Architecture
 
-➡️ UI behaves like a **multi-view application**, not static pages
+Each domain owns its logic:
 
----
+features/
+├── projects/
+└── tabs/
 
-### 3. Tabs System (Stateful UI Layer)
+**Why this matters:**
 
-- Centralized via `TabsProvider`
-- Custom hook: `useTabs`
-- Enables:
-  - Multi-tab navigation
-  - Persistent UI state
+* Eliminates cross-module coupling
+* Enables independent scaling of domains
+* Mirrors backend service boundaries
 
-➡️ Demonstrates **real-world state management design**
+**Trade-off:**
 
----
-
-### 4. Separation of Concerns
-
---------------------------------------------------
-| Layer        | Responsibility                  |
-|--------------|---------------------------------|
-| `app/`       | Routing & page composition      |
-| `features/`  | Business logic & domain modules |
-| `components/`| Reusable UI                     |
-| `lib/`       | Constants & utilities           |
---------------------------------------------------
+* Slight duplication vs shared abstraction
+* Requires strict discipline in boundaries
 
 ---
 
-### 5. Static-First Rendering Strategy
+### 5.2 Stateful Tabs System (Key Differentiator)
 
-- Pages are designed to be **statically generated (SSG)**
-- Reduces runtime cost
-- Improves performance & SEO
+* Centralized via `TabsProvider`
+* Accessed using `useTabs`
+* Maintains:
+
+  * Active views
+  * Navigation history
+  * UI persistence
+
+**Why not URL-only routing?**
+
+| Approach        | Limitation                |
+| --------------- | ------------------------- |
+| URL-based state | No multi-view persistence |
+| Local state     | No global coordination    |
+| Context-based   | Balanced solution         |
 
 ---
 
-## 🔄 Data Flow Strategy
+### 5.3 Composition Root (AppShell)
+
+Acts as a **dependency injection boundary** for UI:
+
+* Controls layout orchestration
+* Decouples routing from rendering
+* Enables consistent UI composition
+
+---
+
+### 5.4 Static-First Rendering Strategy
+
+* Default: Static Site Generation (SSG)
+* Minimizes runtime overhead
+* Improves:
+
+  * Time to First Byte (TTFB)
+  * SEO
+  * Caching efficiency
+
+**Trade-off:**
+
+* Limited dynamic behavior without hydration
+
+---
+
+### 5.5 API Layer (Contact Endpoint)
+
+/api/contact/route.ts
+
+* Encapsulates backend interaction
+* Prepares system for future expansion into:
+
+  * Form handling
+  * External integrations
+
+---
+
+## 6. Data Flow Model
 
 ### Current
-- Static / placeholder data
 
-### Planned
-- MDX-based blog system
-- Project metadata system
-- Optional API layer
+* Static data (skills, projects)
 
----
+### Evolving Towards
 
-## ⚙️ Tech Stack
-
-- **Framework:** Next.js (App Router)
-- **Language:** TypeScript  
-- **Styling:** Tailwind CSS  
-- **Deployment Target:** Vercel (planned)
+* MDX-based content system
+* Dynamic project metadata
+* API-backed content layer
 
 ---
 
-## 📈 Performance Considerations
+## 7. Codebase Structure
 
-- Static generation minimizes server load
-- Reduced client-side JavaScript
-- Optimized routing via App Router
+src/
+├── app/            → Routing + entry points
+├── features/       → Domain logic
+├── components/     → Reusable UI
+├── lib/            → Utilities & shared logic
+├── data/           → Static data sources
+
+### Separation of Concerns
+
+| Layer       | Responsibility             |
+| ----------- | -------------------------- |
+| app/        | Routing & composition      |
+| features/   | Domain logic               |
+| components/ | UI abstraction             |
+| lib/        | Utilities & shared helpers |
+| data/       | Static datasets            |
 
 ---
 
-## 📈 What Makes This Different
+## 8. Performance Characteristics
 
-- Implements **feature-driven architecture**
-- Includes a **custom tab system (like an IDE)**
-- Demonstrates **state management patterns**
-- Designed as a **scalable frontend system**
+* Static rendering reduces server load
+* Minimal client-side hydration
+* Component reuse reduces render overhead
+
+### Current Gaps
+
+* No measured P95/P99 latency yet
+* No bundle size tracking
+* No runtime profiling
+
+➡️ These are intentional next steps
+
+---
+
+## 9. Trade-offs & Limitations
+
+### Known Limitations
+
+* Tabs state is not persisted across sessions
+* No centralized global store (partial usage in `lib/store.ts`)
+* Limited dynamic data integration
+
+### Design Trade-offs
+
+| Decision                | Benefit     | Cost                 |
+| ----------------------- | ----------- | -------------------- |
+| Feature-based structure | Scalability | Boilerplate overhead |
+| Context state (Tabs)    | Simplicity  | Potential re-renders |
+| Static-first rendering  | Performance | Reduced flexibility  |
+
+---
+
+## 10. Future Improvements
+
+* Persist tabs state (localStorage or backend sync)
+* Introduce global state layer (Zustand or Redux-lite)
+* Add performance instrumentation (Web Vitals)
+* Implement MDX pipeline for blog system
+* Introduce caching strategy (ISR)
+
+---
+
+## 11. Resume-Ready Summary
+
+* Designed a **feature-driven frontend architecture** enabling scalable domain isolation and independent module evolution
+* Built a **stateful tab system (IDE-like)** supporting multi-view navigation and persistent UI state
+* Implemented a **static-first rendering strategy**, reducing runtime overhead and improving load performance
+* Structured system using **clear separation of concerns**, mirroring backend service-oriented architecture
 
 ---
 
 ## 🔥 Engineering Philosophy
 
-> UI is temporary. Architecture scales.  
-> This project is built to reflect **long-term engineering thinking**, not short-term visuals.
+> Systems scale. UI follows.
+> This project prioritizes **architecture, boundaries, and extensibility** over visual complexity.
