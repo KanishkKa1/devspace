@@ -1,7 +1,7 @@
 "use client";
 
 import { CodeBlock } from "@/components/ui/CodeBlock";
-import { ArrowRight, Activity, ChevronDown, Lock, Unlock, Play } from "lucide-react";
+import { ArrowRight, Activity, ChevronDown, Lock, Unlock, Play, Zap, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 
 function ExpandablePill({ title, content, colorClass, icon: Icon }: { title: string, content: React.ReactNode, colorClass: string, icon?: any }) {
@@ -255,6 +255,12 @@ std::cout << "Executed 10,000 tasks in " << diff.count() << " ms\\n";`;
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-10 pb-20">
+      {/* Experience Tag */}
+      <div className="mb-6 flex items-center gap-2 text-xs font-mono text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-md w-fit border border-blue-200 dark:border-blue-800">
+        <Activity className="h-4 w-4" />
+        <span>DERIVED FROM PRODUCTION EXPERIENCE (HARMAN)</span>
+      </div>
+
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
           C++ Concurrent Task Scheduler
@@ -270,8 +276,32 @@ std::cout << "Executed 10,000 tasks in " << diff.count() << " ms\\n";`;
         </a>
       </div>
       <p className="text-slate-600 dark:text-[#cccccc] mb-8 leading-relaxed text-lg">
-        A highly-concurrent, thread-pool based task scheduling system implemented in Modern C++ (C++20), designed to minimize context switching overhead and effectively distribute workloads across multi-core architectures.
+        Abstracting the core logic used to prevent race conditions and eliminate thread creation overhead in critical system paths. Features happens-before memory guarantees over raw atomics.
       </p>
+
+      {/* Real World Impact */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+        <div className="p-6 rounded-2xl bg-slate-50 dark:bg-[#1a1a1a] border border-slate-200 dark:border-neutral-800">
+          <div className="text-slate-500 font-mono text-xs uppercase mb-2 tracking-widest flex items-center gap-2">
+            <Zap className="h-4 w-4 text-amber-500" />
+            Empirical Impact
+          </div>
+          <div className="text-2xl font-bold text-slate-900 dark:text-white mb-2">120ms &rarr; 12ms</div>
+          <p className="text-sm text-slate-600 dark:text-[#a0a0a0] leading-relaxed">
+            In high-throughput vehicle routing endpoints at Harman, standard thread spawning led to violent P99 latency spikes. By injecting this exact bounded-queue thread pool model, we stabilized thread lifecycles entirely.
+          </p>
+        </div>
+        <div className="p-6 rounded-2xl bg-slate-50 dark:bg-[#1a1a1a] border border-slate-200 dark:border-neutral-800">
+          <div className="text-slate-500 font-mono text-xs uppercase mb-2 tracking-widest flex items-center gap-2">
+            <ShieldCheck className="h-4 w-4 text-emerald-500" />
+            Thread Stability
+          </div>
+          <div className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Zero Starvation</div>
+          <p className="text-sm text-slate-600 dark:text-[#a0a0a0] leading-relaxed">
+            Eliminated lock starvation by utilizing <code className="bg-slate-200 dark:bg-[#333] px-1 rounded">std::condition_variable</code> over busy-waiting, ensuring workers only awake when actionable tasks hit the dispatcher.
+          </p>
+        </div>
+      </div>
 
       <section className="mb-12">
         <h2 className="text-xl font-semibold mb-3 text-slate-800 dark:text-slate-200">The Problem</h2>
@@ -296,6 +326,59 @@ std::cout << "Executed 10,000 tasks in " << diff.count() << " ms\\n";`;
       <section className="mb-12">
         <h2 className="text-xl font-semibold mb-3 text-slate-800 dark:text-slate-200">Architecture</h2>
         <div className="space-y-6">
+          <div className="my-8 w-full overflow-x-auto rounded-xl bg-slate-50 dark:bg-[#1a1a1a] border border-slate-200 dark:border-slate-800 p-6 flex justify-center">
+            <svg width="600" height="240" viewBox="0 0 600 240" className="text-slate-800 dark:text-slate-300 font-mono text-xs">
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" className="fill-slate-400 dark:fill-slate-600" />
+                </marker>
+                <linearGradient id="qGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" className="stop-blue-500" stopOpacity="0.2"/>
+                  <stop offset="100%" className="stop-blue-600" stopOpacity="0.05"/>
+                </linearGradient>
+              </defs>
+              
+              <rect x="20" y="40" width="100" height="35" rx="4" className="fill-slate-100 dark:fill-[#252526] stroke-slate-300 dark:stroke-[#333]" strokeWidth="2" />
+              <text x="70" y="62" textAnchor="middle" className="font-semibold fill-slate-700 dark:fill-slate-300">Producer 1</text>
+              
+              <rect x="20" y="90" width="100" height="35" rx="4" className="fill-slate-100 dark:fill-[#252526] stroke-slate-300 dark:stroke-[#333]" strokeWidth="2" />
+              <text x="70" y="112" textAnchor="middle" className="font-semibold fill-slate-700 dark:fill-slate-300">Producer 2</text>
+              
+              <rect x="20" y="140" width="100" height="35" rx="4" className="fill-slate-100 dark:fill-[#252526] stroke-slate-300 dark:stroke-[#333]" strokeWidth="2" />
+              <text x="70" y="162" textAnchor="middle" className="font-semibold fill-slate-700 dark:fill-slate-300">Producer N</text>
+
+              <path d="M 120 57.5 Q 150 57.5 150 107.5 T 180 107.5" fill="none" className="stroke-slate-400 dark:stroke-slate-600" strokeWidth="2" markerEnd="url(#arrow)" />
+              <path d="M 120 107.5 L 180 107.5" fill="none" className="stroke-slate-400 dark:stroke-slate-600" strokeWidth="2" markerEnd="url(#arrow)" />
+              <path d="M 120 157.5 Q 150 157.5 150 107.5 T 180 107.5" fill="none" className="stroke-slate-400 dark:stroke-slate-600" strokeWidth="2" markerEnd="url(#arrow)" />
+              
+              <text x="150" y="90" textAnchor="middle" className="fill-slate-500 text-[10px]">mutex+CV</text>
+
+              <rect x="200" y="60" width="120" height="100" rx="4" fill="url(#qGrad)" className="stroke-blue-400 dark:stroke-blue-600" strokeWidth="2" />
+              <text x="260" y="80" textAnchor="middle" className="font-bold fill-blue-700 dark:fill-blue-400 text-sm">Bounded Queue</text>
+              <rect x="220" y="100" width="80" height="12" rx="2" className="fill-blue-100 dark:fill-blue-900/50" />
+              <rect x="220" y="118" width="80" height="12" rx="2" className="fill-blue-100 dark:fill-blue-900/50" />
+              <rect x="220" y="136" width="80" height="12" rx="2" className="fill-blue-100 dark:fill-blue-900/50" />
+              
+              <path d="M 320 107.5 L 380 57.5" fill="none" className="stroke-emerald-400 dark:stroke-emerald-600" strokeWidth="2" markerEnd="url(#arrow)" strokeDasharray="4" />
+              <path d="M 320 107.5 L 380 107.5" fill="none" className="stroke-emerald-400 dark:stroke-emerald-600" strokeWidth="2" markerEnd="url(#arrow)" strokeDasharray="4" />
+              <path d="M 320 107.5 L 380 157.5" fill="none" className="stroke-emerald-400 dark:stroke-emerald-600" strokeWidth="2" markerEnd="url(#arrow)" strokeDasharray="4" />
+              
+              <text x="350" y="90" textAnchor="middle" className="fill-emerald-600 dark:fill-emerald-500 text-[10px]">notify_one()</text>
+
+              <rect x="400" y="40" width="100" height="35" rx="4" className="fill-emerald-50 dark:fill-emerald-950/30 stroke-emerald-300 dark:stroke-emerald-800" strokeWidth="2" />
+              <text x="450" y="62" textAnchor="middle" className="font-semibold fill-emerald-700 dark:fill-emerald-400 text-xs">Worker 1</text>
+              
+              <rect x="400" y="90" width="100" height="35" rx="4" className="fill-emerald-50 dark:fill-emerald-950/30 stroke-emerald-300 dark:stroke-emerald-800" strokeWidth="2" />
+              <text x="450" y="112" textAnchor="middle" className="font-semibold fill-emerald-700 dark:fill-emerald-400 text-xs">Worker 2</text>
+              
+              <rect x="400" y="140" width="100" height="35" rx="4" className="fill-emerald-50 dark:fill-emerald-950/30 stroke-emerald-300 dark:stroke-emerald-800" strokeWidth="2" />
+              <text x="450" y="162" textAnchor="middle" className="font-semibold fill-emerald-700 dark:fill-emerald-400 text-xs">Worker 3</text>
+              
+              <rect x="520" y="87.5" width="60" height="40" rx="2" className="fill-slate-100 dark:fill-[#252526] stroke-slate-300 dark:stroke-[#333]" strokeDasharray="2" strokeWidth="1" />
+              <text x="550" y="112" textAnchor="middle" className="fill-slate-500 text-[10px]">Execution</text>
+              <path d="M 500 107.5 L 515 107.5" fill="none" className="stroke-slate-400 dark:stroke-slate-600" strokeWidth="1" markerEnd="url(#arrow)" />
+            </svg>
+          </div>
           <div>
             <h3 className="font-medium text-slate-800 dark:text-slate-300">Thread Pool Model</h3>
             <ul className="list-disc pl-5 mt-2 space-y-1 text-slate-600 dark:text-[#cccccc]">
@@ -514,23 +597,19 @@ std::cout << "Executed 10,000 tasks in " << diff.count() << " ms\\n";`;
       </section>
 
       <section className="mb-12">
-        <h2 className="text-xl font-semibold mb-3 text-slate-800 dark:text-slate-200">Correctness Guarantees</h2>
+        <h2 className="text-xl font-semibold mb-3 text-slate-800 dark:text-slate-200">Concurrency Depth & Trade-offs</h2>
         <div className="prose dark:prose-invert max-w-none text-slate-600 dark:text-[#cccccc]">
-          <ul className="list-disc pl-5 space-y-2">
-            <li><strong>No data races:</strong> Protected by mutex synchronization</li>
-            <li><strong>No lost tasks:</strong> Guaranteed complete flush under normal operation</li>
-            <li><strong>Bounded memory usage enforced:</strong> Queue size strictly capped by capacity limit</li>
-            <li><strong>Graceful termination:</strong> Ensures all tasks complete fully before shutdown</li>
+          <ul className="list-disc pl-5 space-y-4">
+            <li>
+              <strong>Happens-Before Guarantees:</strong> Instead of relying on complex <code className="bg-slate-100 dark:bg-[#333] px-1 py-0.5 rounded font-mono text-pink-600 dark:text-pink-400">std::atomic</code> fences which risk subtle memory reordering bugs in multithreaded pipelines, we strictly leaned on the explicit <em>happens-before</em> boundaries intrinsically provided by <code className="bg-slate-100 dark:bg-[#333] px-1 py-0.5 rounded font-mono text-purple-600 dark:text-purple-400">std::mutex::unlock</code> and <code className="bg-slate-100 dark:bg-[#333] px-1 py-0.5 rounded font-mono text-purple-600 dark:text-purple-400">std::mutex::lock</code> pairs.
+            </li>
+            <li>
+              <strong>Thread Pool Sizing Logic:</strong> Configured precisely to <code className="bg-slate-100 dark:bg-[#333] px-1 py-0.5 rounded font-mono text-blue-600 dark:text-blue-400">N = std::thread::hardware_concurrency()</code>. Overprovisioning threads mathematically forces violent context-switch thrashing, whereas underprovisioning leaves logical cores idle and leads to queue blockages.
+            </li>
+            <li>
+              <strong>Deadlock & Starvation Avoidance:</strong> Strict lock acquisition scopes are enforced via <code className="bg-slate-100 dark:bg-[#333] px-1 py-0.5 rounded font-mono text-emerald-600 dark:text-emerald-400">std::unique_lock</code>. Furthermore, the queue is intrinsically FIFO, avoiding the LIFO worker starvation inherent to naive stack-based or unbounded work-stealing schemas.
+            </li>
           </ul>
-        </div>
-      </section>
-
-      <section className="mb-12">
-        <h2 className="text-xl font-semibold mb-3 text-slate-800 dark:text-slate-200">Memory Model Considerations</h2>
-        <div className="prose dark:prose-invert max-w-none text-slate-600 dark:text-[#cccccc]">
-          <p>
-            The <code className="bg-slate-100 dark:bg-[#333] px-1 py-0.5 rounded font-mono text-pink-600 dark:text-pink-400">std::mutex</code> locking and <code className="bg-slate-100 dark:bg-[#333] px-1 py-0.5 rounded font-mono text-pink-600 dark:text-pink-400">condition_variable</code> signaling pair establish strict <em>happens-before</em> relationships. This naturally enforces comprehensive memory visibility between producers and consumers without requiring granular explicit atomic operations or memory barriers manually.
-          </p>
         </div>
       </section>
 

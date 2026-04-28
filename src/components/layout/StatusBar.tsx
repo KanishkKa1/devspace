@@ -66,8 +66,8 @@ export function StatusBar() {
           className="flex h-full items-center gap-1 hover:bg-white/10 px-1.5"
           title="Toggle Theme"
         >
-          {isDark ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
-          <span className="hidden sm:inline">{isDark ? "Light" : "Dark"}</span>
+          {isDark ? <Moon className="h-3.5 w-3.5" /> : <Sun className="h-3.5 w-3.5" />}
+          <span className="hidden sm:inline">{isDark ? "Dark Mode" : "Light Mode"}</span>
         </button>
         <button
           className="flex h-full items-center hover:bg-white/10 px-1.5"

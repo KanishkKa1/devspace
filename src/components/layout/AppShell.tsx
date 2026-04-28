@@ -5,6 +5,7 @@ import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
 import { Tabs } from "./Tabs";
 import { StatusBar } from "./StatusBar";
+import { CommandPalette } from "@/components/ui/CommandPalette";
 import { cn } from "@/lib/utils";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -12,6 +13,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex h-full w-full bg-white dark:bg-[#1e1e1e] overflow-hidden">
+      {/* Global Modals */}
+      <CommandPalette />
+
       {/* Mobile Drawer Overlay */}
       {sidebarOpen && (
         <div 

@@ -24,14 +24,14 @@ function SidebarItem({ node, indent = 0, isSidebarOpen }: { node: RouteNode; ind
     if (l === "blogs" || l === "blog") return <BookOpen className="h-4 w-4 shrink-0 text-emerald-500 fill-emerald-500/10 group-hover:scale-110 transition-transform duration-200" />;
     if (l === "devspace") return <User className="h-4 w-4 shrink-0 text-indigo-500 fill-indigo-500/10 group-hover:scale-110 transition-transform duration-200" />;
     if (l === "projects") return <Box className="h-4 w-4 shrink-0 text-amber-500 fill-amber-500/10 group-hover:scale-110 transition-transform duration-200" />;
-    if (l === "leetcode") return <Trophy className="h-4 w-4 shrink-0 text-orange-500 fill-orange-500/10 group-hover:scale-110 transition-transform duration-200" />;
+    if (l === "algorithms") return <Terminal className="h-4 w-4 shrink-0 text-orange-500 fill-orange-500/10 group-hover:scale-110 transition-transform duration-200" />;
     return <Folder className="h-4 w-4 shrink-0 text-slate-400 group-hover:scale-110 transition-transform duration-200" />;
   };
 
   const getFileIcon = (label: string) => {
     const l = label.toLowerCase();
     if (l.endsWith(".cpp")) return <FileCode className="h-4 w-4 shrink-0 text-blue-500 group-hover:scale-110 transition-transform duration-200" />;
-    if (l.endsWith(".ts") || l.endsWith(".tsx")) return <FileJson className="h-4 w-4 shrink-0 text-yellow-500 group-hover:scale-110 transition-transform duration-200" />;
+    if (l.endsWith(".ts") || l.endsWith(".tsx") || l.endsWith(".py")) return <FileJson className="h-4 w-4 shrink-0 text-yellow-500 group-hover:scale-110 transition-transform duration-200" />;
     if (l.endsWith(".md")) return <FileText className="h-4 w-4 shrink-0 text-slate-400 group-hover:scale-110 transition-transform duration-200" />;
     if (l === "home") return <Layout className="h-4 w-4 shrink-0 text-indigo-400 group-hover:scale-110 transition-transform duration-200" />;
     return <FileCode className="h-4 w-4 shrink-0 text-slate-400 group-hover:scale-110 transition-transform duration-200" />;
@@ -79,8 +79,8 @@ function SidebarItem({ node, indent = 0, isSidebarOpen }: { node: RouteNode; ind
       className={cn(
         "flex flex-1 items-center gap-1.5 py-1 px-2 text-sm select-none transition-colors duration-200 group relative whitespace-nowrap border-l-2",
         isActive
-          ? "bg-neutral-200 text-blue-700 dark:bg-neutral-700 dark:text-white font-medium border-blue-500"
-          : "text-slate-700 hover:bg-neutral-200 dark:text-[#cccccc] dark:hover:bg-neutral-800 border-transparent"
+          ? "bg-neutral-200 text-blue-700 dark:bg-[#37373d] dark:text-white font-medium border-blue-500 dark:border-blue-400"
+          : "text-slate-700 hover:bg-neutral-200 dark:text-[#cccccc] dark:hover:bg-[#2a2d2e] border-transparent"
       )}
       style={{ 
         paddingLeft: isSidebarOpen ? `${indent * 12 + 8}px` : '0px', 
