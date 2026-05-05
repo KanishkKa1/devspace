@@ -2,23 +2,20 @@ import { Cpu, Zap, Video, Calendar, MapPin, ExternalLink, Award, TrendingUp } fr
 
 const EXPERIENCES = [
   {
-    title: "Software Development Engineer I",
+    title: "Software Development Engineer",
     company: "Harman International",
     location: "Bangalore",
     date: "Jan 2025 - Present",
     icon: Cpu,
     color: "blue",
     impact: [
-      { text: "Eliminated more than 90% invalid booking states by designing lifecycle-driven invariants.", highlight: "90%" },
-      { text: "Reduced manual correction effort by more than 40% through system correctness enforcement.", highlight: "40%" },
-      { text: "Ensured correctness under high-concurrency workloads using transactional boundaries and locking strategies.", highlight: "high-concurrency" },
-      { text: "Reduced booking latency from 6s to 0.8s by replacing polling-heavy APIs with event-driven WebSocket architecture.", highlight: "6s → 0.8s" },
-      { text: "Reduced end-to-end workflow latency from 8s to 0.7s by isolating critical paths.", highlight: "8s → 0.7s" },
-      { text: "Prevented request pile-ups under load using a task-queue execution model, improving throughput.", highlight: "task-queue" },
-      { text: "Reduced database latency by approximately 25% through indexing and query optimization.", highlight: "25%" },
-      { text: "Reduced regression issues by more than 30% via decoupling and service-layer abstractions.", highlight: "30%" },
-      { text: "Improved observability by surfacing failures, reducing debugging time by approximately 60%.", highlight: "60%" },
-      { text: "Built LLM-driven orchestration pipelines to dynamically route tasks across microservices.", highlight: "LLM-driven" }
+      { text: "Architected an event-driven WebSocket pipeline backed by Redis Pub/Sub, replacing legacy API polling and cutting P99 booking latency from 6s to 0.8s across multiple stateless server instances.", highlight: "6s to 0.8s" },
+      { text: "Designed an asynchronous execution model using Kafka to decouple critical paths, cutting workflow latency from 8s to 0.7s. Enforced at-least-once semantics with idempotency keys to prevent duplicate processing.", highlight: "idempotency keys" },
+      { text: "Engineered a robust state machine utilizing MySQL row-level locking (SELECT FOR UPDATE) and optimistic versioning to enforce lifecycle constraints, eliminating 90% of invalid data states.", highlight: "optimistic versioning" },
+      { text: "Optimized critical database access paths in MySQL via composite indexing and query execution plan restructuring, reducing P95 read latency by 25% across tables exceeding 1M+ rows.", highlight: "P95 read latency" },
+      { text: "Built an LLM-integrated orchestration service to dynamically route interdependent workflows across 20+ microservices, maintaining deterministic execution guarantees.", highlight: "deterministic execution" },
+      { text: "Decoupled tightly bound legacy workflows into independent service-layer abstractions, reducing regression issues by 30% and establishing clear domain boundaries.", highlight: "service-layer abstractions" },
+      { text: "Implemented comprehensive system observability and failure surfacing mechanisms, reducing Mean Time To Resolution (MTTR) for production incidents by 60%.", highlight: "observability" }
     ]
   },
   {
@@ -29,22 +26,9 @@ const EXPERIENCES = [
     icon: Zap,
     color: "amber",
     impact: [
-      { text: "Designed and deployed RAG pipelines integrating LLM inference with retrieval systems.", highlight: "RAG pipelines" },
-      { text: "Reduced inference latency by approximately 30% through pipeline optimization.", highlight: "30%" },
-      { text: "Implemented vector-based semantic search improving retrieval relevance.", highlight: "vector-based" },
-      { text: "Integrated speech processing pipelines into production workflows.", highlight: "speech processing" }
-    ]
-  },
-  {
-    title: "Graphics & Video Content Creator",
-    company: "Motion Graphics",
-    location: "Kolkata",
-    date: "2019 - 2021",
-    icon: Video,
-    color: "purple",
-    impact: [
-      { text: "Developed high-fidelity motion graphics and edited complex video projects for creative impact.", highlight: "graphics & video" },
-      { text: "Composited multimedia assets and managed high-fidelity video rendering workflows.", highlight: "compositing" }
+      { text: "Designed and deployed production RAG pipelines, integrating LLM inference with vector-based retrieval systems to improve semantic search relevance.", highlight: "RAG pipelines" },
+      { text: "Optimized model inference pipelines through caching and batching strategies, reducing end-to-end response latency by 30%.", highlight: "latency by 30%" },
+      { text: "Integrated speech processing models into asynchronous backend workflows for automated large-scale audio transcription.", highlight: "asynchronous backend workflows" }
     ]
   }
 ];
