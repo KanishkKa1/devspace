@@ -35,11 +35,16 @@ const EXPERIENCES = [
 
 export default function ExperiencePage() {
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12 pb-24">
+    <div className="max-w-4xl mx-auto px-6 py-12 pb-24 relative">
+      {/* Ambient background glow */}
+      <div className="absolute top-20 left-1/2 -translate-x-1/2 w-full max-w-2xl h-64 bg-blue-500/10 dark:bg-blue-500/20 blur-[120px] -z-10 rounded-full pointer-events-none" />
 
-      <div className="mb-16 space-y-4">
-        <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-3">
-          <TrendingUp className="h-8 w-8 text-blue-500" />
+      <div className="mb-16 space-y-4 relative animate-fade-in-up">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800/50 text-blue-600 dark:text-blue-400 text-sm font-medium mb-2 transition-all hover:bg-blue-100 dark:hover:bg-blue-900/50">
+          <TrendingUp className="h-4 w-4" />
+          Career Journey
+        </div>
+        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-3">
           Experience & Impact
         </h1>
         <p className="text-slate-600 dark:text-neutral-400 max-w-2xl text-lg leading-relaxed">
@@ -48,8 +53,8 @@ export default function ExperiencePage() {
       </div>
 
       <div className="relative space-y-16">
-        {/* Continuous Timeline Line */}
-        <div className="absolute left-6 md:left-8 top-2 bottom-0 w-px bg-slate-200 dark:bg-neutral-800" />
+        {/* Continuous Timeline Line with Gradient */}
+        <div className="absolute left-6 md:left-8 top-8 bottom-0 w-[2px] bg-gradient-to-b from-blue-500 via-slate-200 to-transparent dark:from-blue-500/50 dark:via-neutral-800 dark:to-transparent rounded-full" />
 
         {EXPERIENCES.map((exp, index) => (
           <div 
@@ -58,18 +63,18 @@ export default function ExperiencePage() {
             style={{ animationDelay: `${index * 150}ms`, opacity: 0 }}
           >
             {/* Timeline Icon */}
-            <div className={`absolute left-0 h-12 w-12 md:h-16 md:w-16 rounded-2xl flex items-center justify-center bg-white dark:bg-neutral-900 border-2 border-slate-200 dark:border-neutral-800 shadow-sm z-10 transition-transform hover:scale-110 duration-250`}>
+            <div className={`absolute left-0 h-12 w-12 md:h-16 md:w-16 rounded-2xl flex items-center justify-center bg-white dark:bg-neutral-900 border-2 border-slate-200 dark:border-neutral-800 shadow-sm z-10 transition-all duration-300 group-hover:scale-110 group-hover:border-blue-500/50 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] dark:group-hover:shadow-[0_0_20px_rgba(59,130,246,0.2)]`}>
               <exp.icon className={`h-6 w-6 md:h-8 md:w-8 ${
                 exp.color === 'blue' ? 'text-blue-500' : 
                 exp.color === 'amber' ? 'text-amber-500' : 
                 'text-purple-500'
-              }`} />
+              } transition-transform duration-300`} />
             </div>
 
             <div className="group">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-6">
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white transition-all duration-300 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-purple-600 dark:group-hover:from-blue-400 dark:group-hover:to-purple-400">
                     {exp.title}
                   </h3>
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-sm font-medium text-slate-500 dark:text-neutral-400">
@@ -97,7 +102,7 @@ export default function ExperiencePage() {
                   return (
                     <div 
                       key={pIndex} 
-                      className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50/50 dark:bg-neutral-900/30 border border-transparent hover:border-slate-200 dark:hover:border-neutral-800 hover:bg-white dark:hover:bg-neutral-800/50 transition-all duration-200 group/point"
+                      className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50/50 dark:bg-neutral-900/30 border border-transparent hover:border-slate-200 dark:hover:border-neutral-700/50 hover:bg-white dark:hover:bg-neutral-800/50 hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 group/point"
                     >
                       <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-slate-400 dark:bg-neutral-600 group-hover/point:bg-blue-500 group-hover/point:scale-125 transition-all" />
                       <p className="text-sm md:text-base text-slate-600 dark:text-neutral-300 leading-relaxed">
